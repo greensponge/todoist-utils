@@ -1,0 +1,10 @@
+.clj-kondo/
+.cpcache/
+.lsp/
+.idea/
+target/
+
+.nrepl-port
+*.iml
+*.jar
+config.edn
