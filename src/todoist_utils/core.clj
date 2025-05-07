@@ -31,7 +31,7 @@
   (.minusDays date (dec (.getValue (.getDayOfWeek date)))))
 
 (defn classify-date [due-date-str]
-  (when (not-empty due-date-str)
+  (if (not-empty due-date-str)
     (let [due-date (LocalDate/parse due-date-str)
           today (LocalDate/now)
           ;; Week calculations
@@ -64,7 +64,8 @@
              (not (.isAfter due-date end-next-month)))
         :next-month
 
-        :else :later))))
+        :else :later))
+    :later))
 
 (defn get-tasks [project-id]
   (-> (client/get (str todoist-rest-url "tasks?project_id=" project-id) client-params)
@@ -119,13 +120,14 @@
                   this-week-project-id
                   next-week-project-id
                   this-month-project-id
-                  next-month-project-id]} config]
+                  next-month-project-id
+                  later-project-id]} config]
       (move-task-according-to-date inbox-project-id)
       (move-task-according-to-date this-week-project-id)
       (move-task-according-to-date next-week-project-id)
       (move-task-according-to-date this-month-project-id)
-      (move-task-according-to-date next-month-project-id))
+      (move-task-according-to-date next-month-project-id)
+      (move-task-according-to-date later-project-id))
     (println "Done.")
     (catch Exception e
       (println "Error:" e))))
-
