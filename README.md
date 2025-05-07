@@ -54,6 +54,7 @@ You must add a `config.edn` file to your project root with the following key/val
 :inbox-project-id "your-inbox-project-id"
 :later-project-id "your-later-project-id"}
 ```
+To find out what your project ids are, you can open your browser and go to: https://api.todoist.com/rest/v2/projects
 
 The `config.edn` file is ignored in `.gitignore` to avoid accidental leaking.
 
