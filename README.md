@@ -55,6 +55,8 @@ You must add a `config.edn` file to your project root with the following key/val
 :later-project-id "your-later-project-id"}
 ```
 To find out what your project ids are, you can open your browser and go to: https://api.todoist.com/rest/v2/projects
+The project id is in the "url" property, e.g. `url: "https://app.todoist.com/app/project/6ABCSomeIdY"`, 
+it's the `6ABCSomeIdY` in this example that you want to copy to your `config.edn` file.
 
 The `config.edn` file is ignored in `.gitignore` to avoid accidental leaking.
 
@@ -75,7 +77,7 @@ The uberjar function is defined in `build.clj`.
 # Cron Schedule
 I use cron to execute the uberjar on regular schedule, in this case every 5 minutes:
 ```bash
-*/5 * * * * java -jar /home/greensponge/todoist-utils.jar >> /home/greensponge/todoist-utils.log 2>&1
+*/5 * * * * java -jar /home/greensponge/todoist-utils.jar 
 ```
 # Roadmap
 When I become bothered by something in my Todoist workflow in the future, I plan to extend these utils. If you have any cool automation ideas you can open an issue or create a PR.
