@@ -3,7 +3,7 @@
 
 (def lib 'todoist-utils)
 (def version "0.1.0")
-(def jar-file (str "todoist-utils-" version ".jar"))
+(def jar-file (str "todoist-utils.jar"))
 
 (defn clean [_]
   (b/delete {:path "target"}))
