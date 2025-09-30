@@ -4,8 +4,9 @@
    [clj-http.client :as client]
    [clojure.data.json :as json]
    [clojure.edn :as edn]
-   [clojure.java.io :as io])
-  (:import [java.time LocalDate YearMonth]))
+   [clojure.java.io :as io]
+   [clojure.string :as str])
+  (:import (java.time LocalDate YearMonth)))
 
 (defn load-config
   "You MUST have a config.edn added to project root with the required key/values for this program to work."
@@ -94,25 +95,29 @@
     (when (seq tasks)
       (doseq [task tasks]
         (let [due-date (-> task :due :date)
-              target-location (classify-date due-date)
-              task-id (:id task)]
-          (condp = target-location
-            :this-week (when-not (= project-id this-week-project-id)
-                         (move-item task-id this-week-project-id))
+              task-id (:id task)
+              ;; Skip rule: if task is in inbox and has no due date (nil or blank), do not move it.
+              skip? (and (= project-id inbox-project-id)
+                         (or (nil? due-date) (str/blank? due-date)))]
+          (when-not skip?
+            (let [target-location (classify-date due-date)]
+              (condp = target-location
+                :this-week (when-not (= project-id this-week-project-id)
+                             (move-item task-id this-week-project-id))
 
-            :next-week (when-not (= project-id next-week-project-id)
-                         (move-item task-id next-week-project-id))
+                :next-week (when-not (= project-id next-week-project-id)
+                             (move-item task-id next-week-project-id))
 
-            :this-month (when-not (= project-id this-month-project-id)
-                          (move-item task-id this-month-project-id))
+                :this-month (when-not (= project-id this-month-project-id)
+                              (move-item task-id this-month-project-id))
 
-            :next-month (when-not (= project-id next-month-project-id)
-                          (move-item task-id next-month-project-id))
+                :next-month (when-not (= project-id next-month-project-id)
+                              (move-item task-id next-month-project-id))
 
-            :later (when-not (= project-id later-project-id)
-                     (move-item task-id later-project-id))
+                :later (when-not (= project-id later-project-id)
+                         (move-item task-id later-project-id))
 
-            :else (move-item task-id inbox-project-id)))))))
+                :else (move-item task-id inbox-project-id)))))))))
 
 (defn -main [& _]
   (try

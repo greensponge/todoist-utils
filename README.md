@@ -27,6 +27,8 @@ I want my tasks to automatically move between the projects (this week, next week
 I don't want to think about assigning which of these projects a task should go through when I quickly add something to the inbox either.
 It should do that automatically based on the due date. And if I fail to complete a task, I can just change the duedate and let this automation move it to where it needs to go.
 
+However, if I add a task without a due date to the inbox, I want it to stay there until I manually assign a due date to it.
+
 Additionally, as an example, when it switches months I want the tasks in "Next Month" to go to "This Month", when it's "Next Week" I want it to go there, and so on.
 I *never* want to do this manually.
 
